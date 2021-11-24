@@ -11,7 +11,6 @@
 #invader {
     display: flex;
     flex-wrap: wrap;
-    width: 9.2rem;
     align-items: center;
     justify-content: center;
 }
