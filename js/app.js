@@ -1,15 +1,25 @@
 const app = {
+  invaderDiv: document.getElementById("invader"),
   createForm: function () {
     const gridSizeInput = document.createElement("input");
     gridSizeInput.setAttribute("id", "sizeGrid");
     gridSizeInput.setAttribute("class", "input");
     gridSizeInput.setAttribute("placeholder", "Taille de la grille");
+    gridSizeInput.type = "number";
+    gridSizeInput.min = "2";
+    gridSizeInput.max = "24";
     gridSizeInput.setAttribute("value", "");
+    gridSizeInput.required = true;
 
     const pixelSizeInput = document.createElement("input");
     pixelSizeInput.setAttribute("id", "sizePixel");
     pixelSizeInput.setAttribute("class", "input");
     pixelSizeInput.setAttribute("placeholder", "Taille des pixels");
+    pixelSizeInput.setAttribute("value", "");
+    pixelSizeInput.type = "number";
+    pixelSizeInput.min = "2";
+    pixelSizeInput.max = "40";
+    pixelSizeInput.required = true;
 
     const formButton = document.createElement("button");
     formButton.textContent = "Valider";
@@ -21,34 +31,46 @@ const app = {
     form.append(pixelSizeInput);
     form.append(formButton);
   },
-  createGrid: function (nbCases) {
-    const invader = document.getElementById("invader");
-    for (let i = 0; i < nbCases; i++) {
-      let newCase = document.createElement("div");
-      newCase.classList.add("case");
-      invader.append(newCase);
+  createGrid: function (nbCases, pixelSize) {
+    if (nbCases) {
+      const table = document.createElement("table");
+      app.invaderDiv.append(table);
+      for (let i = 0; i < nbCases; i++) {
+        const tr = document.createElement("tr");
+
+        for (let j = 0; j < nbCases; j++) {
+          const newCase = document.createElement("td");
+          tr.append(newCase);
+          newCase.classList.add("case");
+          newCase.style.width = `${pixelSize}px`;
+          newCase.style.height = `${pixelSize}px`;
+        }
+        table.append(tr);
+      }
+    } else {
     }
   },
   addListeners: function () {
-    const invader = document.getElementById("invader");
-    invader.addEventListener("click", (event) => {
+    app.invaderDiv.addEventListener("click", (event) => {
       event.target.classList.toggle("black");
     });
     const form = document.querySelector(".configuration");
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       console.log(event);
-      const gridSizeInput = event.target[0];
-      const newGridSizeValue = parseInt(gridSizeInput.value);
-      invader.innerHTML = "";
-      app.createGrid(newGridSizeValue);
+
+      const newGridSizeValue = event.target[0].valueAsNumber;
+      const newPixelSizeValue = event.target[1].valueAsNumber;
+
+      app.invaderDiv.innerHTML = "";
+      app.createGrid(newGridSizeValue, newPixelSizeValue);
     });
   },
   init: function () {
     app.createForm();
-    app.createGrid(64);
+    app.createGrid(16, 20);
     app.addListeners();
   },
 };
 
-document.addEventListener("DOMContentLoaded", app.init);
+window.addEventListener("DOMContentLoaded", app.init);
