@@ -1,48 +1,54 @@
-// // on crée une boucle pour génerer 8 * 8 ( 64 ) cases
-// let invader = document.getElementById('invader');
+const app = {
+  createForm: function () {
+    const gridSizeInput = document.createElement("input");
+    gridSizeInput.setAttribute("id", "sizeGrid");
+    gridSizeInput.setAttribute("class", "input");
+    gridSizeInput.setAttribute("placeholder", "Taille de la grille");
+    gridSizeInput.setAttribute("value", "");
 
-//  function generateTable(nbPixel) {
+    const pixelSizeInput = document.createElement("input");
+    pixelSizeInput.setAttribute("id", "sizePixel");
+    pixelSizeInput.setAttribute("class", "input");
+    pixelSizeInput.setAttribute("placeholder", "Taille des pixels");
 
-//      for (let i = 0; i < nbPixel; i++) {
+    const formButton = document.createElement("button");
+    formButton.textContent = "Valider";
+    formButton.setAttribute("id", "formButton");
+    formButton.setAttribute("type", "submit");
 
-//         let row = document.createElement('div')
-//         invader.appendChild(row)
+    const form = document.querySelector(".configuration");
+    form.append(gridSizeInput);
+    form.append(pixelSizeInput);
+    form.append(formButton);
+  },
+  createGrid: function (nbCases) {
+    const invader = document.getElementById("invader");
+    for (let i = 0; i < nbCases; i++) {
+      let newCase = document.createElement("div");
+      newCase.classList.add("case");
+      invader.append(newCase);
+    }
+  },
+  addListeners: function () {
+    const invader = document.getElementById("invader");
+    invader.addEventListener("click", (event) => {
+      event.target.classList.toggle("black");
+    });
+    const form = document.querySelector(".configuration");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      console.log(event);
+      const gridSizeInput = event.target[0];
+      const newGridSizeValue = parseInt(gridSizeInput.value);
+      invader.innerHTML = "";
+      app.createGrid(newGridSizeValue);
+    });
+  },
+  init: function () {
+    app.createForm();
+    app.createGrid(64);
+    app.addListeners();
+  },
+};
 
-//              for (let y = 0; y < nbPixel; y++) {
-
-//                  let newCase = document.createElement('div');
-//                  newCase.classList.add('case');
-//                  row.appendChild(newCase);
-//              }
-
-//      }
-//  }
-
-// // on crée le formulaire
-// let form = document.querySelector('.configuration')
-
-// let sizePixel = document.createElement('input');
-// sizePixel.id = "sizePixel";
-// form.appendChild(sizePixel);
-
-// let submit = document.createElement('button');
-// submit.type = 'button';
-// submit.textContent = 'Valider';
-// form.appendChild(submit);
-
-// // création de notre notre matrice Pixel
-
-// submit.addEventListener('click', function() {
-
-//     invader.textContent = '';
-//     generateTable(sizePixel.value);
-
-// })
-
-// // Quand on click sur le bouton on veut changer la class de chaque pixel ( background color )
-
-// invader.addEventListener('click', function (event) {
-
-//     event.target.classList.toggle('black');
-
-// })
+document.addEventListener("DOMContentLoaded", app.init);

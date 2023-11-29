@@ -1,0 +1,82 @@
+.app {
+    opacity: 0.7;
+    background-color: rgb(212, 51, 51);
+    
+    width: 650px;
+    margin:1rem auto;
+    height: 100vh;
+    border: 5px solid black;
+}
+
+
+form {
+    height: 20%;
+    background-color:#eaff00a6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 5px solid black;
+}
+
+.main{
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#invader {
+    display: flex;
+    flex-wrap: wrap;
+    width: 9.2rem;
+
+
+
+}
+.case {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid rgb(203 161 161);;
+    background-color:whitesmoke
+
+}
+
+
+.black {
+    background-color: black;
+}
+.white {
+    background-color: white;
+}
+.yellow {
+    background-color: yellow;
+}
+
+.input{
+    height: 30%;
+    width: 120px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0.2rem;
+    margin-right: 0.1rem;
+    text-align: center;
+    border: none;
+    border: 3px solid black
+   
+}
+#sizeGrid {
+    border-radius: 10px 0 0 10px;
+}
+#formButton {
+    height: 35%;
+    width: 5rem;
+    background-color: rgb(149 207 124);
+    opacity: 0.9;
+    font-size: 1rem;
+    color: white;
+    font-weight: bold;
+    border: 3px solid black;
+    border-radius: 0 10px 10px 0;
+    margin-left: 0.2rem;
+}
