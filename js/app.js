@@ -1,4 +1,6 @@
 const app = {
+  styles: ["black", "grey", "yellow", "green"],
+  selectedColor: "",
   invaderDiv: document.getElementById("invader"),
   createForm: function () {
     const gridSizeInput = document.createElement("input");
@@ -32,28 +34,47 @@ const app = {
     form.append(formButton);
   },
   createGrid: function (nbCases, pixelSize) {
-    if (nbCases) {
-      const table = document.createElement("table");
-      app.invaderDiv.append(table);
-      for (let i = 0; i < nbCases; i++) {
-        const tr = document.createElement("tr");
+    const table = document.createElement("table");
+    app.invaderDiv.append(table);
+    for (let i = 0; i < nbCases; i++) {
+      const tr = document.createElement("tr");
 
-        for (let j = 0; j < nbCases; j++) {
-          const newCase = document.createElement("td");
-          tr.append(newCase);
-          newCase.classList.add("case");
-          newCase.style.width = `${pixelSize}px`;
-          newCase.style.height = `${pixelSize}px`;
-        }
-        table.append(tr);
+      for (let j = 0; j < nbCases; j++) {
+        const newCase = document.createElement("td");
+        tr.append(newCase);
+        newCase.classList.add("case");
+        newCase.style.width = `${pixelSize}px`;
+        newCase.style.height = `${pixelSize}px`;
       }
-    } else {
+      table.append(tr);
+    }
+  },
+  createColorsChoice: function () {
+    const containerColors = document.createElement("div");
+    containerColors.classList.add("containerColorsDiv");
+    const colors = ["black", "grey", "yellow", "green"];
+    for (const color of colors) {
+      const colorDiv = document.createElement("div");
+      colorDiv.style.backgroundColor = color;
+      colorDiv.classList.add("colorDiv");
+      containerColors.append(colorDiv);
+      const main = document.querySelector(".main");
+      main.append(containerColors);
     }
   },
   addListeners: function () {
     app.invaderDiv.addEventListener("click", (event) => {
-      event.target.classList.toggle("black");
+      const styles = app.styles;
+      for (const style of styles) {
+        if (style !== app.selectedColor) {
+          event.target.classList.remove(style);
+        }
+      }
+      console.log(app.selectedColor);
+      event.target.classList.toggle(app.selectedColor);
     });
+
+    // gestion formulaire
     const form = document.querySelector(".configuration");
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -65,9 +86,22 @@ const app = {
       app.invaderDiv.innerHTML = "";
       app.createGrid(newGridSizeValue, newPixelSizeValue);
     });
+    // gestion click sur les divColor
+    const colorDivs = document.querySelectorAll(".colorDiv");
+    for (const colorDiv of colorDivs) {
+      colorDiv.addEventListener("click", (event) => {
+        for (const colorDiv of colorDivs) {
+          colorDiv.classList.remove("bump");
+        }
+        event.target.classList.add("bump");
+        app.selectedColor = event.target.style.backgroundColor;
+      });
+    }
   },
+
   init: function () {
     app.createForm();
+    app.createColorsChoice();
     app.createGrid(16, 20);
     app.addListeners();
   },
